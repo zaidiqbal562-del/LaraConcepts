@@ -7,7 +7,7 @@
 
 </head>
 <body >
-    <h1>Login</h1>
+    <h1> Input credential Login</h1>
 
     @if($errors->any())
         <div style="color:red;">

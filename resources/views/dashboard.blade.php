@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Dashboard</h1>
-    <p>Welcome, {{ auth()->user()->name }}!</p>
+    <p>Welcoddme, {{ auth()->user()->name }}!</p>
 
     <form method="POST" action="/logout">
         @csrf
