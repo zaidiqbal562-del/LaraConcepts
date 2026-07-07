@@ -7,7 +7,7 @@
 
 </head>
 <body >
-    <h1> Input credential Login</h1>
+    <h1>  credential Login</h1>
 
     @if($errors->any())
         <div style="color:red;">
@@ -31,7 +31,7 @@
         </div>
         <div>
             <label>
-                <input type="checkbox" name="remember"> Remember me
+                <input type="checkbox" name="remember"> Remember me bro!!!
             </label>
         </div>
         <button type="submit">Login</button>
