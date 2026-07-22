@@ -13,6 +13,7 @@
                 <input type="text" id="name" name="name" required>
             </div>  
 
+            
             <div>
                 <label for="manager">Manager:</label>
                 <select id="manager" name="manager" required>
