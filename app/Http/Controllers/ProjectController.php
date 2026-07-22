@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use App\Mail\ProjectCreatedMail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use App\Jobs\SendProjectCreatedEmail;
 class ProjectController extends Controller
 {
@@ -47,6 +48,20 @@ class ProjectController extends Controller
         // Dispatch a queued job to email all other users about the new project
         SendProjectCreatedEmail::dispatch($project, $creator);
 
+        //Webhook payload
+        $payload=[
+            'event'=>'project.created',
+            'project'=>[
+                'id'=>$project->id,
+                'name'=>$project->name,
+                'manager'=>$project->manager,
+                'paid'=>$project->paid,
+                'created_at'=>$project->created_at,
+            ]
+        ];
+        //Hit callback
+        Http::post(url('/callback/project'),$payload);
+            
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
@@ -80,7 +95,7 @@ class ProjectController extends Controller
 
     public function search(Request $request)
     {
-        $Search = $request->Search;
+        $Search = $request->Search; 
         if (auth()->user()->is_super_user) {
             $projects = Project::where('name', 'LIKE', "%{$Search}%")->get();
             if($projects->isEmpty()){
@@ -92,5 +107,14 @@ class ProjectController extends Controller
 
         } 
         
+    }
+
+    public function callback(Request $request){
+        Log::info('Callback Hit');
+        Log::info($request->all()); 
+        return response()->json([
+            'status'=>true,
+            'message'=>'Callback recieved'
+        ]);
     }
 }

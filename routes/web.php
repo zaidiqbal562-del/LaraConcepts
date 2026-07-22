@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PushNotificationController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PayoutController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,3 +55,6 @@ Route::post('/check-age',[ListController::class,'checkAge'])->name('check.age');
 //SMS
 Route::get('/sms',[SMSController::class,'index'])->name('sms.index');
 Route::get('/send-sms', [SMSController::class, 'sendSms']);
+
+//callback
+Route::get('/callback/project',[ProjectController::class,'callback'])->name('projects.callback');

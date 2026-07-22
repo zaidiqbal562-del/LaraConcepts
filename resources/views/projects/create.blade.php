@@ -24,7 +24,7 @@
             <div>
                 <label for="paid">Paid Status:</label>
                 <select id="paid" name="paid" required>
-                    <option value="">Select Status</option>
+                    <option value="">Select Status</option> 
                     <option value="1">Paid</option>
                     <option value="0">Unpaid</option>
                 </select>

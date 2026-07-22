@@ -87,41 +87,61 @@ class OrderController extends Controller
     /**
      * Verify signature returned from frontend and update order status.
      */
-    public function verify(Request $request)
-    {
-        $request->validate([
-            'razorpay_order_id' => 'required|string',
-            'razorpay_payment_id' => 'required|string',
-            'razorpay_signature' => 'required|string',
+   public function verify(Request $request)
+{
+    $request->validate([
+        'razorpay_order_id'   => 'required|string',
+        'razorpay_payment_id' => 'required|string',
+        'razorpay_signature'  => 'required|string',
+    ]);
+
+    $keySecret = env('RAZORPAY_KEY_SECRET');
+
+    $orderId   = $request->razorpay_order_id;
+    $paymentId = $request->razorpay_payment_id;
+    $signature = $request->razorpay_signature;
+
+    // Generate expected signature
+    $expectedSignature = hash_hmac(
+        'sha256',
+        $orderId . '|' . $paymentId,
+        $keySecret
+    );
+
+    // Find local order
+    $order = Order::where('razorpay_order_id', $orderId)->first();
+
+    if (!$order) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Order not found'
+        ], 404);
+    }
+
+    // Verify signature
+    if (!hash_equals($expectedSignature, $signature)) {
+
+        $order->update([
+            'status' => 'FAILED'
         ]);
 
-        $keySecret = env('RAZORPAY_KEY_SECRET');
-
-        $orderId = $request->input('razorpay_order_id');
-        $paymentId = $request->input('razorpay_payment_id');
-        $signature = $request->input('razorpay_signature');
-
-        // verify signature
-        $expected = hash_hmac('sha256', $orderId . '|' . $paymentId, $keySecret);
-
-        $localOrder = Order::where('razorpay_order_id', $orderId)->first();
-        if (!$localOrder) {
-            return response()->json(['ok' => false, 'message' => 'Order not found'], 404);
-        }
-
-        if (hash_equals($expected, $signature)) {
-            $localOrder->update([
-                'razorpay_payment_id' => $paymentId,
-                'status' => 'PAID',
-                'paid_at' => now(),
-            ]);
-
-            // Note: still wait for webhook for final reconciliation in production
-
-            return response()->json(['ok' => true]);
-        }
-
-        $localOrder->update(['status' => 'FAILED']);
-        return response()->json(['ok' => false, 'message' => 'Invalid signature'], 400);
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid signature'
+        ], 400);
     }
+
+    // Save payment id only (optional but useful)
+    $order->update([
+        'razorpay_payment_id' => $paymentId
+    ]);
+
+    // DO NOT mark as PAID here.
+    // Wait for payment.captured webhook.
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Payment verified. Waiting for confirmation.'
+    ]);
+}
 }
