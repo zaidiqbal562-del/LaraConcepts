@@ -54,7 +54,19 @@ Route::post('/check-age',[ListController::class,'checkAge'])->name('check.age');
 
 //SMS
 Route::get('/sms',[SMSController::class,'index'])->name('sms.index');
+Route::get('/stripe-products',[SMSController::class,'stripeProducts'])->name('stripe.products.index');
 Route::get('/send-sms', [SMSController::class, 'sendSms']);
+
+//Stripe Checkout
+use App\Http\Controllers\StripeCheckoutController;
+Route::post('/stripe/checkout', [StripeCheckoutController::class, 'checkout'])->name('stripe.checkout');
+Route::get('/stripe/order/{order}/status', [StripeCheckoutController::class, 'checkStatus'])->name('stripe.check-status');
+
+//Stripe Payments History
+use App\Http\Controllers\StripePaymentController;
+Route::get('/stripe/payments', [StripePaymentController::class, 'index'])->name('stripe.payments.index');
+Route::get('/stripe/payments/{payment}', [StripePaymentController::class, 'show'])->name('stripe.payment.show');
+Route::get('/stripe/my-payments', [StripePaymentController::class, 'userPayments'])->name('stripe.user-payments');
 
 //callback
 Route::get('/callback/project',[ProjectController::class,'callback'])->name('projects.callback');

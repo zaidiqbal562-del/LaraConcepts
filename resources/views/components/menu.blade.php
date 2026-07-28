@@ -6,5 +6,7 @@
         <li style="margin:6px 0;"><a href="{{ route('users.index') }}" style="color:#333; text-decoration:none;">Users</a></li>
         <li style="margin:6px 0;"><a href="{{ route('payouts.index') }}" style="color:#333; text-decoration:none;">Payouts</a></li>
         <li style="margin:6px 0;"><a href="{{ route('sms.index') }}" style="color:#333; text-decoration:none;">SMS</a></li>
+        <li style="margin:6px 0;"><a href="{{ route('stripe.products.index') }}" style="color:#333; text-decoration:none;">Stripe Products</a></li>
+        <li style="margin:6px 0;"><a href="{{ route('stripe.payments.index') }}" style="color:#333; text-decoration:none;">Stripe Payments</a></li>
     </ul>
 </aside>

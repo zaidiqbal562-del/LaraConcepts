@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SMS </title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'SMS')
+
+@section('content')
     <h1>SMS Page</h1>
-</body>
-</html>
+    <p>Use the menu to visit Stripe Products and view available items.</p>
+@endsection

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Payout;
 use App\Models\User;
-use App\Services\RazorpayXService;
+use App\Models\Payout;
 use Illuminate\Http\Request;
+use App\Services\RazorpayXService;
+use App\Http\Controllers\Controller;
 
 class PayoutController extends Controller
 {
@@ -15,11 +15,11 @@ class PayoutController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $payouts = Payout::with('user')->orderBy('created_at', 'desc')->get();
-        return view('payouts.index', compact('payouts'));
-    }
+    // public function index()
+    // {
+    //     $payouts = Payout::with('user')->orderBy('created_at', 'desc')->get();
+    //     return view('payouts.index', compact('payouts'));
+    // }
 
     /**
      * Create a payout record and process it through RazorpayX (mock or real API).
