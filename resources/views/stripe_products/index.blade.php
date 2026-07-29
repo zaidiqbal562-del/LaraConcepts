@@ -5,6 +5,7 @@
 @section('content')
     <h1>Stripe Products</h1>
     <p>Browse the Stripe products below and click Buy Now.</p>
+    <li style="margin:6px 0;"><a href="{{ route('stripe.payments.index') }}" target="_blank" style="color:#333; text-decoration:none;">Stripe Payments</a></li>
 
     @if($products->isEmpty())
         <div style="padding:16px; border:1px solid #e5e7eb; background:#f9fafb; border-radius:8px;">
