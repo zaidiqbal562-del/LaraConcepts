@@ -4,7 +4,7 @@
 
 @section('content')
     <div style="max-width:600px; margin:0 auto; padding:20px;">
-        <h1>Stripe Checkout</h1>
+        <h1>Stripe Checkout....</h1>
         <div style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:white; margin:20px 0;">
             <h2 style="font-size:18px; margin:0 0 10px;">{{ $product->name }}</h2>
             <p style="margin:0 0 16px; color:#6b7280; font-size:14px;">Order #{{ $order->id }}</p>
